@@ -46,6 +46,7 @@ while success and cv2.waitKey(1) == -1:
         # talvez trocar o valor int(radius[i]) por um valor fixo (como 24, nesse caso)
         cv2.circle(frame, (int(centers[i][0]), int(centers[i][1])), int(radius[i]), (0, 255, 0), 2)
     
+    # Mostra a posicao da bolinha (atualmente so mostra posicao de um objeto)
     if contours:
         frame = cv2.putText(frame, f"({int(centers[0][0])}, {int(centers[0][1])})", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 5, cv2.LINE_AA)
 
