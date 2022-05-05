@@ -29,7 +29,25 @@ while success and cv2.waitKey(1) == -1:
 
     # Find and draw contours
     contours, __ = cv2.findContours(maskFrame, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    cv2.drawContours(frame, contours, -1, (255,145,0), 10)
+    cv2.drawContours(frame, contours, -1, (255, 0, 0), 3)
+
+    # Essa parte ainda tenho que descobrir como funciona
+    contours_poly = [None] * len(contours)
+    centers = [None] * len(contours)
+    radius = [None] * len(contours)
+    for i, c in enumerate(contours):
+        contours_poly[i] = cv2.approxPolyDP(c, 3, True)
+        centers[i], radius[i] = cv2.minEnclosingCircle(contours_poly[i])
+
+
+    # drawing = np.zeros((frame.shape[0], frame.shape[1], 3), dtype=np.uint8)
+    
+    for i in range(len(contours)):
+        # talvez trocar o valor int(radius[i]) por um valor fixo (como 24, nesse caso)
+        cv2.circle(frame, (int(centers[i][0]), int(centers[i][1])), int(radius[i]), (0, 255, 0), 2)
+    
+    if contours:
+        frame = cv2.putText(frame, f"({int(centers[0][0])}, {int(centers[0][1])})", (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 5, cv2.LINE_AA)
 
     # Transmite imagem ao vivo
     cv2.imshow("camera", frame)
